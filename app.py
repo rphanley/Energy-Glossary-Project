@@ -45,6 +45,11 @@ def search_terms():
                                 result_term=result)
 
 
+@app.route('/add_update')
+def add_task():
+    return render_template('addupdate.html')
+
+
 @app.route('/create_entry', methods=['POST'])
 def create_entry():
     terms =  mongo.db.terms
