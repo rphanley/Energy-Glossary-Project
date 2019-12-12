@@ -1,4 +1,4 @@
 # Ignore theia folder
 .theia
 
-env.py
+.env
