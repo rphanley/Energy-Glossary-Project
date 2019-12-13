@@ -1,4 +1,5 @@
 import os
+import re
 
 from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, request, url_for
@@ -18,13 +19,14 @@ term_id = None
 is_update = False
 
 @app.route('/')
-@app.route('/get_term')
-def get_term():
+@app.route('/home')
+def home():
     global record_loaded
     record_loaded = False
+    home_msg = {'term':'Look up an energy term..','description':'Please search for a term, and press Enter.'}
     return render_template("read.html",
-                                result_term={'term':'Home Page ',
-                                'description':'Default description'})
+                                result_term=home_msg)
+
 
 
 
@@ -33,14 +35,12 @@ def search_terms():
     result = None
     global term_id,record_loaded
     record_loaded = False
+    
     #Get the search text from the input box on the navbar (base.html)
     search_text = request.form['search_input']
-    #search_text = '{ $regex: /^vehicle to grid/i }'
-    #Search the MongoDB database using the search text
+    #Run a case-insensitive search for a record with term=search_text
     try:
-        #result = mongo.db.terms.find_one({'term': search_text })
-        result = mongo.db.terms.find_one({"term": {  "$regex": "/^Vehicle To Grid/i" } })
-        #result = mongo.db.terms.find_one({'term': re.compile(search_text, re.IGNORECASE)})
+        result = mongo.db.terms.find_one({'term': re.compile(search_text, re.IGNORECASE)})
        
     except:
         result = {'term':'Error accessing the database ','description':'Check your database access and try again.'}
@@ -55,39 +55,48 @@ def search_terms():
         term_id = result['_id']
         record_loaded = True
 
+   
     return render_template("read.html",
                                 result_term=result)
 
 
-@app.route('/add_update')
-def add_task():
+@app.route('/add_update/<mode>')
+def add_update(mode):
     global term_id,record_loaded,is_update
-    display_term_name =''
-    display_term_desc =''
-    display_action_name ='Create'
 
-    if record_loaded:
-        print(term_id)
-        term_to_update = mongo.db.terms.find_one({"_id": ObjectId(term_id)})
-        display_action_name = 'Update'
-        display_term_name = term_to_update['term']
-        display_term_desc = term_to_update['description']
+    print('Mode is:' + mode)
+    # If Update button was clicked, set up to update the loaded record
+    if mode == 'update':
         is_update = True
-    else:
-         print('No record loaded yet..')
-         
+        if record_loaded:
+                term_to_update = mongo.db.terms.find_one({"_id": ObjectId(term_id)})
+                display_action_name = 'Update'
+                display_term_name = term_to_update['term']
+                display_term_desc = term_to_update['description']
+        else:   # No record loaded yet, display an error message
+                no_rec_msg = {'term':'No entry loaded yet','description':'Please search for an entry, then click Update.'}
+                return render_template("read.html",
+                                result_term=no_rec_msg)
+    # Add mode, bring up form for record insertion.
+    elif mode == 'add':
+        is_update = False
+        display_term_name =''
+        display_term_desc =''
+        display_action_name ='Add'
+   
     return render_template('addupdate.html',
                                  form_action=display_action_name,
                                  form_term_name=display_term_name,
                                  form_term_description=display_term_desc)
 
 
+#Perform the record update or insertion in the database
 @app.route('/create_entry', methods=['POST'])
 def create_entry():
     global term_id,is_update
     terms =  mongo.db.terms
 
-    if is_update:
+    if is_update: #Update the record
         terms.update( {'_id': ObjectId(term_id)},
             {
             'term':request.form.get('term_name'),
@@ -95,14 +104,31 @@ def create_entry():
             })
         print('Updated record..')
         is_update = False
-    else:
+    else:  # Add a new record
         terms.insert_one({
             'term':request.form.get('term_name'),
             'description':request.form.get('term_description'),
             })
         print('Added record..')
 
-    return redirect(url_for('get_term'))
+    return redirect(url_for('home'))
+
+@app.route('/delete')
+def delete():
+    global term_id,record_loaded
+
+    if record_loaded:
+            mongo.db.terms.delete_one({'_id': ObjectId(term_id)})
+            # Notify the user
+            msg = {'term':'Entry deleted!','description':''}
+    else:
+        # No record loaded yet, display an error message
+        msg = {'term':'No entry loaded yet','description':'Please search for an entry, then click Delete.'}
+
+    return render_template("read.html",
+                                result_term=msg)
+         
+    
 
 
 if __name__ == '__main__':

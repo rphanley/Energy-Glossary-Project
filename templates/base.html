@@ -3,36 +3,37 @@
 
 <head>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-	<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css"/>
+     
 </head>
 
 <body>
 	<nav>
 		<div class="nav-wrapper">
 
-                <a href="#" class="brand-logo center">Energy Glossary</a>
+                <a href="{{ url_for('home') }}" class="brand-logo center">Energy Glossary</a>
 
-                    <form action="{{ url_for('search_terms') }}" method="POST">
-                        <div class="left row" id="topbarsearch">
-                            <div class="input-field col s12 black-text">
-                                <i class="black-text material-icons prefix">search</i>
-                                <input type="text" placeholder="search" name="search_input" class="black-text" >
-                            </div>
-                        </div>
-                    </form>
-				
-				
-
-				<ul id="nav-mobile" class="hide-on-small-only right">
-					<li><a href="add_update">Add</a></li>
-					<li><a href="addupdate.html">Update</a></li>
-					<li><a href="read.html">Read</a></li>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a class = "btn-small" href="{{url_for('add_update', mode='add')}}" >Add</a></li>
+                    <li><a class = "btn-small" href="{{url_for('add_update', mode='update')}}">Update</a></li>
+					<li><a class = "btn-small" href="{{ url_for('delete') }}" onclick="return confirm('Are you sure you want to delete the entry?');">Delete</a></li>
 				</ul>
 
 
 			</div>
 	</nav>
+    <form action="{{ url_for('search_terms') }}" method="POST"  id="search_form">
+        <div class="center row">
+            <div class="input-field col s4 black-text">
+                <i class="black-text material-icons prefix">search</i>
+                <input type="text" placeholder="Enter an energy term to search for" name="search_input" class="black-text" >
+            </div>
+        </div>
+    </form>
+    <br>
+    <br>
+
 	<div class="container">
 		{% block content %} {% endblock %}
 	</div>
@@ -45,6 +46,7 @@
             $('select').material_select();
             $(".button-collapse").sideNav();
         });
+
         
  
 	</script>
