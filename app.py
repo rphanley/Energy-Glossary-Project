@@ -1,6 +1,8 @@
 import os
 import re
 
+
+
 from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, request, url_for
 from flask_pymongo import PyMongo
@@ -110,7 +112,7 @@ def create_entry():
             'description':request.form.get('term_description'),
             })
         print('Added record..')
-
+    record_loaded = False
     return redirect(url_for('home'))
 
 @app.route('/delete')
@@ -125,6 +127,7 @@ def delete():
         # No record loaded yet, display an error message
         msg = {'term':'No entry loaded yet','description':'Please search for an entry, then click Delete.'}
 
+    record_loaded = False
     return render_template("read.html",
                                 result_term=msg)
          

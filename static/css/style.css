@@ -7,9 +7,15 @@
     
 }
 
+/* Allow lower case text on Materialize buttons */
 .btn-small {
     text-transform: none;
   
+}
+
+/* light green background for body */
+body {
+    background-color: #c8e6c9;
 }
 
 

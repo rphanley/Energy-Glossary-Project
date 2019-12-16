@@ -3,51 +3,76 @@
 
 <head>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css"/>
-     
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
 </head>
 
 <body>
-	<nav>
+	<nav class="green lighten-2">
 		<div class="nav-wrapper">
 
-                <a href="{{ url_for('home') }}" class="brand-logo center">Energy Glossary</a>
+			<a href="{{ url_for('home') }}" class="brand-logo center">Energy Glossary</a>
 
-				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><a class = "btn-small" href="{{url_for('add_update', mode='add')}}" >Add</a></li>
-                    <li><a class = "btn-small" href="{{url_for('add_update', mode='update')}}">Update</a></li>
-					<li><a class = "btn-small" href="{{ url_for('delete') }}" onclick="return confirm('Are you sure you want to delete the entry?');">Delete</a></li>
-				</ul>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a class="btn-small blue" href="{{url_for('add_update', mode='add')}}">Add</a></li>
+				<li><a class="btn-small blue" href="{{url_for('add_update', mode='update')}}">Update</a></li>
+				<li><a class="btn-small blue" href="{{ url_for('delete') }}"
+						onclick="return confirm('Are you sure you want to delete the entry?');">Delete</a></li>
+			</ul>
 
 
-			</div>
+		</div>
 	</nav>
-    <form action="{{ url_for('search_terms') }}" method="POST"  id="search_form">
-        <div class="center row">
-            <div class="input-field col s4 black-text">
-                <i class="black-text material-icons prefix">search</i>
-                <input type="text" placeholder="Enter an energy term to search for" name="search_input" class="black-text" >
+	<form action="{{ url_for('search_terms') }}" method="POST" id="search_form">
+		<div class="center row">
+			<div class="input-field col s4 black-text">
+				<i class="black-text material-icons prefix">search</i>
+				<input type="text" placeholder="Enter an energy term to search for" name="search_input" class="black-text" >
             </div>
-        </div>
-    </form>
-    <br>
-    <br>
+			</div>
+	</form>
+	<br>
+	<br>
 
 	<div class="container">
 		{% block content %} {% endblock %}
+
+		<div class="fixed-action-btn click-to-toggle hide-on-large-only">
+			<a class="btn-floating btn-large green lighten-2">
+				<i class="large material-icons">menu</i>
+			</a>
+			<ul>
+				<li><a class="btn-floating green darken-1"
+						href="{{url_for('add_update', mode='add')}}"><i class="material-icons">add</i></a></li>
+				<li><a class="btn-floating orange"
+						href="{{url_for('add_update', mode='update')}}"><i class="material-icons">mode_edit</i></a></li>
+				<li><a class="btn-floating red" href="{{ url_for('delete') }}"
+						onclick="return confirm('Are you sure you want to delete the entry?');"><i class="material-icons">delete</i></a>
+				</li>
+			</ul>
+		</div>
 	</div>
+
+
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
+            <!-- Initialize navbar and floating action button for menus -->
             $('.collapsible').collapsible();
             $('select').material_select();
             $(".button-collapse").sideNav();
+            $('.fixed-action-btn').floatingActionButton();
+
         });
 
-        
- 
+        <!-- Initialize floating action button (menu) for mobile -->
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.fixed-action-btn');
+            var instances = M.FloatingActionButton.init(elems, {
+                    hoverEnabled: false
+            });
+        });
 	</script>
 </body>
