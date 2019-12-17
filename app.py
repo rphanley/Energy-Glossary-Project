@@ -22,7 +22,8 @@ mongo = PyMongo(app)
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template("index.html")
+    latest = mongo.db.terms.find().sort('_id',-1).limit(10)
+    return render_template("index.html", records=latest)
 
 
 
@@ -38,31 +39,33 @@ def search_terms():
         result = mongo.db.terms.find_one({'term': re.compile(search_text, re.IGNORECASE)})
        
     except:
-        result = {'term':'Error accessing the database ','description':'Check your database access and try again.'}
-        print("Error accessing the database")
+        # Notify the user
+        msg = 'Error accessing the database! Check your database access and try again.'
+        return render_template("message.html",
+                                message_text=msg)
 
-    badge = ''
-    # Print an error if no result found, otherwise populate the read.html template with the result
+    
+    # Print an error if no result found, otherwise get the result record.
     if not result:
-        result = {'term':'No result found for: ' + search_text,'description':'Check your spelling and try again.'}
-        print("Error! No result found.")
+        msg = 'No result found for: ' + search_text + ' .Check your spelling and try again.'
+        return render_template("message.html",
+                                message_text=msg)
     else:
         print("Found a database entry for: " + search_text)
         term_id = result['_id']
-        if created_today(term_id):
-            badge = 'new badge'
-
-        
-    return redirect(url_for('get_record', record_id=term_id))
+        return redirect(url_for('get_record', record_id=term_id))
 
 
 @app.route('/get_record/<record_id>')
 def get_record(record_id):
+    badge = ''
     print('Getting record ID ' + record_id)
     record = mongo.db.terms.find_one({'_id': ObjectId(record_id)})
     print('Got record ID with term: ' + record['term'])
+    if created_today(record_id):
+        badge = 'new badge'
     return render_template("read.html",
-                                result_term=record)
+                                result_term=record, badge_class=badge)
 
 
 # Check if the database entry was created today, for New badge
@@ -116,10 +119,11 @@ def update_entry(term_id):
 
 @app.route('/delete/<term_id>')
 def delete(term_id):
-   
+    entry = mongo.db.terms.find_one({"_id": ObjectId(term_id)})
+    name = entry['term']
     mongo.db.terms.delete_one({'_id': ObjectId(term_id)})
     # Notify the user
-    msg = 'Entry for ' + term_id + ' deleted!'
+    msg = 'Entry for ' + '"' + name + '"' + ' deleted!'
 
     return render_template("message.html",
                                 message_text=msg)

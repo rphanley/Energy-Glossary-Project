@@ -14,10 +14,16 @@
 			<a href="{{ url_for('home') }}" class="brand-logo center">Energy Glossary</a>
 
 
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a class="btn-small blue" href="{{url_for('add')}}">Add</a></li>
+                {% block update_here %}{% endblock %}
+                {% block delete_here %}{% endblock %}
+			</ul>
+
 
 		</div>
 	</nav>
-	
+
 
 	<div class="container">
 		{% block content %} {% endblock %}

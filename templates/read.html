@@ -1,15 +1,22 @@
-{% extends 'base.html'%} {% block content %}
+{% extends 'base.html'%}
+{% block update_here %}<li><a class="btn-small blue" href="{{url_for('update', term_id=result_term['_id'])}}">Update</a></li>{% endblock %}
+{% block delete_here %}<li><a class="btn-small blue" href="{{ url_for('delete', term_id=result_term['_id']) }}"
+						onclick="return confirm('Are you sure you want to delete the entry?');">Delete</a></li>{% endblock %}
+ 
+ 
+ {% block content %}
+ 
+ 
 <div class="row">
 
-
-	<div>
-
-		<h1>{{result_term['term']}}</h1>
-		<p>{{result_term['description']}}</p>
-
-
-
-	</div>
+                    <br></br>
+                    <div id="term_title">
+                        <h1>{{result_term['term']}}</h1><span id="badge" class ="{{badge_class}}" data-badge-caption="New!"></span>
+                                      
+                    </div>
+                    <div>
+                        <p>{{result_term['description']}}</p>
+                    </div>
 
 	<div class="fixed-action-btn click-to-toggle hide-on-large-only">
 		<a class="btn-floating btn-large green lighten-2">

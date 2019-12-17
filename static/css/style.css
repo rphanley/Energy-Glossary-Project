@@ -13,9 +13,15 @@
   
 }
 
-.showleft {
-       float: left;
-  
+#badge {
+  font-size:1rem ; 
+  float:none;
+  background-color: red
+}
+
+#term_title {
+  display: flex;
+  justify-content: left;
 }
 
 /* light green background for body */
