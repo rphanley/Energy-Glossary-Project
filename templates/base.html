@@ -13,44 +13,15 @@
 
 			<a href="{{ url_for('home') }}" class="brand-logo center">Energy Glossary</a>
 
-			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a class="btn-small blue" href="{{url_for('add_update', mode='add')}}">Add</a></li>
-				<li><a class="btn-small blue" href="{{url_for('add_update', mode='update')}}">Update</a></li>
-				<li><a class="btn-small blue" href="{{ url_for('delete') }}"
-						onclick="return confirm('Are you sure you want to delete the entry?');">Delete</a></li>
-			</ul>
 
 
 		</div>
 	</nav>
-	<form action="{{ url_for('search_terms') }}" method="POST" id="search_form">
-		<div class="center row">
-			<div class="input-field col s4 black-text">
-				<i class="black-text material-icons prefix">search</i>
-				<input type="text" placeholder="Enter an energy term to search for" name="search_input" class="black-text" >
-            </div>
-			</div>
-	</form>
-	<br>
-	<br>
+	
 
 	<div class="container">
 		{% block content %} {% endblock %}
 
-		<div class="fixed-action-btn click-to-toggle hide-on-large-only">
-			<a class="btn-floating btn-large green lighten-2">
-				<i class="large material-icons">menu</i>
-			</a>
-			<ul>
-				<li><a class="btn-floating green darken-1"
-						href="{{url_for('add_update', mode='add')}}"><i class="material-icons">add</i></a></li>
-				<li><a class="btn-floating orange"
-						href="{{url_for('add_update', mode='update')}}"><i class="material-icons">mode_edit</i></a></li>
-				<li><a class="btn-floating red" href="{{ url_for('delete') }}"
-						onclick="return confirm('Are you sure you want to delete the entry?');"><i class="material-icons">delete</i></a>
-				</li>
-			</ul>
-		</div>
 	</div>
 
 

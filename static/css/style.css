@@ -13,9 +13,39 @@
   
 }
 
+.showleft {
+       float: left;
+  
+}
+
 /* light green background for body */
 body {
     background-color: #c8e6c9;
 }
+
+/* Colour setting for search box placeholder text for different browsers */
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:  #a0a0a0;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:   #a0a0a0;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:   #a0a0a0;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:   #a0a0a0;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+   color:   #a0a0a0;
+}
+
+::placeholder { /* Most modern browsers support this now. */
+   color:   #a0a0a0;
+}
+
+
 
 

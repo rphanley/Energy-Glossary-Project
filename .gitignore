@@ -1,4 +1,4 @@
 # Ignore theia folder
-.theia
-
+.theia/
+__pycache__/
 .env

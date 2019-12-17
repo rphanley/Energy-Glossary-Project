@@ -1,5 +1,7 @@
 import os
 import re
+import datetime
+
 
 
 
@@ -16,18 +18,11 @@ app.config['MONGO_URI'] = os.getenv('MONGO_URI', 'Env value not loaded')
 
 mongo = PyMongo(app)
 
-record_loaded = False
-term_id = None
-is_update = False
 
 @app.route('/')
 @app.route('/home')
 def home():
-    global record_loaded
-    record_loaded = False
-    home_msg = {'term':'Look up an energy term..','description':'Please search for a term, and press Enter.'}
-    return render_template("read.html",
-                                result_term=home_msg)
+    return render_template("index.html")
 
 
 
@@ -35,10 +30,8 @@ def home():
 @app.route('/search_terms', methods=['POST'])
 def search_terms():
     result = None
-    global term_id,record_loaded
-    record_loaded = False
     
-    #Get the search text from the input box on the navbar (base.html)
+    #Get the search text from the input box
     search_text = request.form['search_input']
     #Run a case-insensitive search for a record with term=search_text
     try:
@@ -48,6 +41,7 @@ def search_terms():
         result = {'term':'Error accessing the database ','description':'Check your database access and try again.'}
         print("Error accessing the database")
 
+    badge = ''
     # Print an error if no result found, otherwise populate the read.html template with the result
     if not result:
         result = {'term':'No result found for: ' + search_text,'description':'Check your spelling and try again.'}
@@ -55,81 +49,80 @@ def search_terms():
     else:
         print("Found a database entry for: " + search_text)
         term_id = result['_id']
-        record_loaded = True
+        if created_today(term_id):
+            badge = 'new badge'
 
-   
+        
+    return redirect(url_for('get_record', record_id=term_id))
+
+
+@app.route('/get_record/<record_id>')
+def get_record(record_id):
+    print('Getting record ID ' + record_id)
+    record = mongo.db.terms.find_one({'_id': ObjectId(record_id)})
+    print('Got record ID with term: ' + record['term'])
     return render_template("read.html",
-                                result_term=result)
+                                result_term=record)
 
 
-@app.route('/add_update/<mode>')
-def add_update(mode):
-    global term_id,record_loaded,is_update
+# Check if the database entry was created today, for New badge
+def created_today(entry_id):
+    obj_id = ObjectId(entry_id)
+    create_date = obj_id.generation_time.date()
+    print(create_date)
+    today = datetime.datetime.utcnow().date()
+    print(today)
+    return (create_date == today)
 
-    print('Mode is:' + mode)
-    # If Update button was clicked, set up to update the loaded record
-    if mode == 'update':
-        is_update = True
-        if record_loaded:
-                term_to_update = mongo.db.terms.find_one({"_id": ObjectId(term_id)})
-                display_action_name = 'Update'
-                display_term_name = term_to_update['term']
-                display_term_desc = term_to_update['description']
-        else:   # No record loaded yet, display an error message
-                no_rec_msg = {'term':'No entry loaded yet','description':'Please search for an entry, then click Update.'}
-                return render_template("read.html",
-                                result_term=no_rec_msg)
-    # Add mode, bring up form for record insertion.
-    elif mode == 'add':
-        is_update = False
-        display_term_name =''
-        display_term_desc =''
-        display_action_name ='Add'
-   
-    return render_template('addupdate.html',
-                                 form_action=display_action_name,
-                                 form_term_name=display_term_name,
-                                 form_term_description=display_term_desc)
+@app.route('/add')
+def add():
+    return render_template('add.html')
 
 
-#Perform the record update or insertion in the database
-@app.route('/create_entry', methods=['POST'])
-def create_entry():
-    global term_id,is_update
+
+@app.route('/update/<term_id>')
+def update(term_id):
+    term = mongo.db.terms.find_one({"_id": ObjectId(term_id)})
+    return render_template('update.html', term_to_update=term)
+
+
+
+#Perform the record insertion in the database
+@app.route('/add_entry', methods=['POST'])
+def add_entry():
     terms =  mongo.db.terms
-
-    if is_update: #Update the record
-        terms.update( {'_id': ObjectId(term_id)},
-            {
-            'term':request.form.get('term_name'),
-            'description':request.form.get('term_description'),
-            })
-        print('Updated record..')
-        is_update = False
-    else:  # Add a new record
-        terms.insert_one({
-            'term':request.form.get('term_name'),
-            'description':request.form.get('term_description'),
-            })
-        print('Added record..')
-    record_loaded = False
+    # Add a new record
+    terms.insert_one({
+        'term':request.form.get('term_name'),
+        'description':request.form.get('term_description'),
+        })
+    print('Added record..')
     return redirect(url_for('home'))
 
-@app.route('/delete')
-def delete():
-    global term_id,record_loaded
+#Perform the record update in the database
+@app.route('/update_entry/<term_id>', methods=['POST'])
+def update_entry(term_id):
+    terms =  mongo.db.terms
 
-    if record_loaded:
-            mongo.db.terms.delete_one({'_id': ObjectId(term_id)})
-            # Notify the user
-            msg = {'term':'Entry deleted!','description':''}
-    else:
-        # No record loaded yet, display an error message
-        msg = {'term':'No entry loaded yet','description':'Please search for an entry, then click Delete.'}
+    #Update the record
+    terms.update( {'_id': ObjectId(term_id)},
+        {
+        'term':request.form.get('term_name'),
+        'description':request.form.get('term_description'),
+        })
+    print('Updated record..')
+    return redirect(url_for('home'))
 
-    record_loaded = False
-    return render_template("read.html",
-                                result_term=msg)
+
+@app.route('/delete/<term_id>')
+def delete(term_id):
+   
+    mongo.db.terms.delete_one({'_id': ObjectId(term_id)})
+    # Notify the user
+    msg = 'Entry for ' + term_id + ' deleted!'
+
+    return render_template("message.html",
+                                message_text=msg)
          
     
 
