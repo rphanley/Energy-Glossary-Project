@@ -1,30 +1,30 @@
 {% extends 'base.html' %}
-{% block update_here %}<li><a class="btn-small blue" href="{{url_for('update', term_id=term_to_update['_id'])}}">Update</a></li>{% endblock %}
-{% block delete_here %}<li><a class="btn-small blue" href="{{ url_for('delete', term_id=term_to_update['_id']) }}"
+{% block update_here %}<li><a class="btn-small green lighten-4 black-text" href="{{url_for('update', term_id=term_to_update['_id'])}}">Update</a></li>{% endblock %}
+{% block delete_here %}<li><a class="btn-small green lighten-4 black-text" href="{{ url_for('delete', term_id=term_to_update['_id']) }}"
 						onclick="return confirm('Are you sure you want to delete the entry?');">Delete</a></li>{% endblock %}
  
  
  {% block content %}
 <div class="row">
-	<h3>Update Glossary Entry</h3>
+	<div class="update_title center-align">Update Glossary Entry</div>
 
 	<form action="{{ url_for('update_entry', term_id=term_to_update['_id']) }}" method="POST" class="col s12">
 		<div class="row">
 			<div class="input-field col s12">
-				<i class="material-icons prefix">assignment</i>
+				<i class="material-icons prefix green-text text-lighten-2">assignment</i>
 				<input id="term_name" name="term_name" value="{{term_to_update['term']}}" type="text">
-				<label for="icon_prefix">Term Name</label>
+				<label class="green-text text-lighten-2" for="icon_prefix">Term Name</label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="input-field col s12">
-				<i class="material-icons prefix">subject</i>
+				<i class="material-icons prefix green-text text-lighten-2">subject</i>
 				<textarea name="term_description" id="term_description"  class="materialize-textarea">{{term_to_update['description']}}</textarea>
-				<label for="icon_telephone">Term Description</label>
+				<label class="green-text text-lighten-2" for="icon_telephone">Term Description</label>
 			</div>
 		</div>
 		<div class="row">
-			<button class="btn waves-effect waves-light" type="submit" name="action">Update Entry
+			<button class="btn waves-effect waves-light green lighten-2" type="submit" name="action">Update Entry
                 <i class="material-icons right">playlist_add</i>
              </button>
 		</div>
@@ -36,13 +36,13 @@
 			<i class="large material-icons">menu</i>
 		</a>
 		<ul>
-			<li><a class="btn-floating green darken-1" href="{{url_for('add')}}"><i class="material-icons">add</i></a>
+			<li><a class="float_items btn-floating green darken-1" href="{{url_for('add')}}"><i class="material-icons">add</i></a>
 			</li>
-			<li><a class="btn-floating orange"
+			<li><a class="float_items btn-floating orange"
 					href="{{url_for('update', term_id=term_to_update['_id'])}}"><i class="material-icons">mode_edit</i></a>
 			</li>
 
-			<li><a class="btn-floating red" href="{{ url_for('delete', term_id=term_to_update['_id']) }}"
+			<li><a class="float_items btn-floating red" href="{{ url_for('delete', term_id=term_to_update['_id']) }}"
 					onclick="return confirm('Are you sure you want to delete the entry?');"><i class="material-icons">delete</i></a>
 			</li>
 		</ul>

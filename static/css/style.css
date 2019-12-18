@@ -1,11 +1,3 @@
-.btn_small {
-    height: 24px;
-    width: 60px;
-    line-height: 24px;
-    margin: 5px 5px;
-    padding: 0 0.5em;
-    
-}
 
 /* Allow lower case text on Materialize buttons */
 .btn-small {
@@ -13,15 +5,95 @@
   
 }
 
+/* Settings for "New!" badge on new database entries */
 #badge {
   font-size:1rem ; 
   float:none;
   background-color: red
 }
 
+/* Move term title display to left */
 #term_title {
   display: flex;
   justify-content: left;
+}
+
+/* Set term title font size bigger than h1 for mobile devices */
+#term_text {
+    font-size: 5vw;
+}
+
+/* Increase term description font size for mobile devices */
+#desc_text {
+    font-size: 3vw;
+}
+
+/* Put border around each list item in the record display */
+.collection li {
+    border: 1px solid black;
+    
+}
+/* Enlarge font sizes for input box and record display, for mobile devices */
+#search_input {
+    font-size:3vw;
+}
+
+#entry_list_title {
+    font-size:5vw;
+}
+
+#entry_list {
+    font-size:3vw;
+}
+
+/* Set navbar title font size bigger for mobile devices */
+nav .brand-logo {
+    font-size: 5vw;
+}
+
+/* Set add and update page title font size bigger for mobile devices */
+.update_title {
+    font-size: 6vw;
+}
+
+/* Enlarge add and update page input font sizes  for mobile devices */
+#term_name {
+    font-size:4vw;
+}
+
+#term_description {
+    font-size:4vw;
+}
+
+/* Enlarge the floating action button for display on mobile devices */
+.btn-floating.btn-large {
+    width: 16vw;
+    height:9vh;
+    padding: 0;
+}
+
+/* Enlarge the floating action button menu items also */
+.float_items {
+    width: 13vw;
+    height:7vh;
+    padding-bottom: 0;
+}
+
+/* Enlarge and reposition the menu icon on the floating action button */
+.btn-large i {
+    font-size: 5rem;
+    padding-top:3vh;
+}
+
+/* Increase spacing between the floating action button and menu items */
+.fixed-action-btn ul li {
+    margin-bottom: 10vh;
+}  
+
+/* Enlarge and reposition the menu item icons on the floating action button */
+.fixed-action-btn ul li i {
+    font-size: 5rem;
+    padding-top:2vh;
 }
 
 /* light green background for body */

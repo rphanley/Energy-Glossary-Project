@@ -1,24 +1,24 @@
 {% extends 'base.html' %} {% block content %}
 <div class="row">
-	<h3>Add Glossary Entry</h3>
+	<div class="update_title center-align">Add Glossary Entry</div>
 
 	<form action="{{ url_for('add_entry') }}" method="POST" class="col s12">
 		<div class="row">
 			<div class="input-field col s12">
-				<i class="material-icons prefix">assignment</i>
-				<input id="term_name" name="term_name" type="text">
-				<label for="icon_prefix">Term Name</label>
+				<i class="material-icons prefix green-text text-lighten-2">assignment</i>
+				<input id="term_name" name="term_name" type="text" placeholder="Term Name">
+				<label class="green-text text-lighten-2" for="icon_prefix"></label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="input-field col s12">
-				<i class="material-icons prefix">subject</i>
-				<textarea name="term_description" id="term_description"  class="materialize-textarea"></textarea>
-				<label for="icon_telephone">Term Description</label>
+				<i class="material-icons prefix green-text text-lighten-2">subject</i>
+				<textarea name="term_description" id="term_description"  class="materialize-textarea" placeholder="Term Description"></textarea>
+				<label class="green-text text-lighten-2" for="icon_telephone"></label>
 			</div>
 		</div>
 		<div class="row">
-			<button class="btn waves-effect waves-light" type="submit" name="action">Add Entry
+			<button class="btn waves-effect waves-light green lighten-2" type="submit" name="action">Add Entry
                 <i class="material-icons right">playlist_add</i>
              </button>
 		</div>
@@ -31,7 +31,7 @@
 			<i class="large material-icons">menu</i>
 		</a>
 		<ul>
-			<li><a class="btn-floating green darken-1" href="{{url_for('add')}}"><i class="material-icons">add</i></a>
+			<li><a class="float_items btn-floating green darken-1" href="{{url_for('add')}}"><i class="material-icons">add</i></a>
 			</li>
 
 		</ul>
