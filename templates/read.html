@@ -8,7 +8,6 @@
  
  
 <div class="row">
-
                     <br></br>
                     <div id="term_title">
                         <span id="term_text">{{result_term['term']}}</span><span id="badge" class ="{{badge_class}}" data-badge-caption="New!"></span>
@@ -17,6 +16,10 @@
                     <div>
                         <span id="desc_text">{{result_term['description']}}</span>
                     </div>
+
+                    <br>
+                    <a href="{{url_for('home')}}" class="waves-effect waves-light btn-small green lighten-2  valign-wrapper">
+                        <i class="material-icons">arrow_back</i> Back to search page</a>
 
 	<div class="fixed-action-btn click-to-toggle hide-on-large-only">
 		<a class="btn-floating btn-large green lighten-2">

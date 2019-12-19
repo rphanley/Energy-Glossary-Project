@@ -16,8 +16,9 @@
 
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 				<li><a class="btn-small green lighten-4 black-text" href="{{url_for('add')}}">Add</a></li>
-                {% block update_here %}{% endblock %}
-                {% block delete_here %}{% endblock %}
+                <!-- Show the update and delete buttons on the appropriate pages -->
+				{% block update_here %}{% endblock %}
+				{% block delete_here %}{% endblock %}
 			</ul>
 
 
@@ -26,6 +27,16 @@
 
 
 	<div class="container">
+        <!-- Display any flash messages from the previous page -->
+		{% with messages = get_flashed_messages() %}
+		    {% if messages %}
+		        {% for message in messages %}
+		            <h3>{{ message }}</h3>
+		        {% endfor %}
+		    {% endif %}
+		{% endwith %}
+
+        <!-- Block content from other pages -->
 		{% block content %} {% endblock %}
 
 	</div>

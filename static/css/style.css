@@ -48,7 +48,8 @@
 
 /* Set navbar title font size bigger for mobile devices */
 nav .brand-logo {
-    font-size: 5vw;
+    font-size: 4.1vw;
+    margin-top: -9px;
 }
 
 /* Set add and update page title font size bigger for mobile devices */

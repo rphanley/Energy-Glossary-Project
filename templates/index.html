@@ -1,6 +1,6 @@
 {% extends 'base.html'%} {% block content %}
 <div class="row">
-
+    <div class="col s12">
 	<form action="{{ url_for('search_terms') }}" method="POST" id="search_form">
 		<div class="center row">
 			<div class="input-field col s8 black-text">
@@ -17,7 +17,7 @@
             <li class="collection-header green lighten-2 white-text">
                 <span id="entry_list_title">Latest entries</span>
             </li>
-            
+            <!-- Show the 10 latest database entries -->
             {% for record in records %}
             <li>
                 <a id ="entry_list" href="{{url_for('get_record', record_id=record['_id'])}}"
@@ -47,6 +47,6 @@
 
 
 
-
+    </div>
 </div>
 {% endblock %}

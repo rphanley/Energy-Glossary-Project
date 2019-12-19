@@ -8,7 +8,7 @@
 <div class="row">
 	<div class="update_title center-align">Update Glossary Entry</div>
 
-	<form action="{{ url_for('update_entry', term_id=term_to_update['_id']) }}" method="POST" class="col s12">
+	<form action="{{ url_for('update', term_id=term_to_update['_id']) }}" method="POST" class="col s12">
 		<div class="row">
 			<div class="input-field col s12">
 				<i class="material-icons prefix green-text text-lighten-2">assignment</i>
