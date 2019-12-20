@@ -29,7 +29,7 @@ The target user of the site is anyone who has an interest in or is employed in t
 
  
 
-- My wireframe sketch was uploaded to the root folder under the energy-glossary project, as wireframe.jpg (GIVE FULL PATH). It shows the wireframe for the 'read' page and the 
+ My original wireframe sketch was uploaded to the root folder under the energy-glossary project, as wireframe.jpg (/app/wireframe.jpg in the deployed app). It shows the wireframe for the 'read' page and the 
 'add/update' form. 
 
  
@@ -37,43 +37,84 @@ The target user of the site is anyone who has an interest in or is employed in t
 
 ## Features
 
-The site consists of 2 main pages, a 'read' page to view glossary entries and a 'add/update' page with a form for creating and
-modifying glossary entries. There is a navbar across the top showing the website title "Energy Glossary", a search input box, and 
-menu items for Add, Update, and Delete . The main part of the page displays the glossary entry (title and description) or 
-the edit form. There is a floating action button displayed on the bottom right of the screen which expands on being clicked,
+The site consists of 4 pages, a 'home' page, a 'read' page, an 'add' page and an 'update' page. There is a navbar across the top showing the website title "Energy Glossary", and 
+buttons for Add, Update, and Delete displayed as appropriate to the page being displayed. These buttons appear on larger devices e.g laptops.
+Alternatively for smaller devices, there is a floating action button displayed on the bottom right of the screen which expands on being clicked,
 to show the Add, Update, and Delete options.
 
+ 
 
  
+ 
 ### Existing Features
-- On loading the page for the first time on any device
+- The 'Home' page contains a search input box, and a selectable list of the 10 latest terms entered into the database. The user can either
+enter a term to search for, or select one of the latest entries by clicking.
 
-- A CSS media rule is included to reduce the height of the map area to 65% of the vertical space on the page, for screen heights of 320 pixels or less. This
-  keeps the bottom message area visible in landscape mode for the Motorola Moto G4 and iPhone 5/SE phones.
+- Once found, the glossary entry is displayed on the 'read' page with the energy term on top and its description underneath. If the term has been entered into the database today, a 'New!' badge is 
+displayed beside it in red. There is a button under the description to allow the user to go back to the 'home' page for a new
+search. The Add, Update and Delete buttons are available in this view, with Update and Delete applying to the viewed entry.
+
+- The page can be scrolled if needed to view longer descriptions. On mobile devices, the floating action buttons remain in place
+while scrolling.
+
+- The 'Add' page has a form to allow input of a new term name and its description. When complete, the user clicks the "Add Entry"
+button at the bottom to add the entry to the database. The new entry is then displayed on the 'read' page with a flash message
+confirming that it was created. 
+
+- The 'Update' page uses a similar form with the term and description displayed for editing. The user clicks on the "Update Entry"
+button to submit the changes. Again the updated entry is displayed on the 'read' page with a message confirming the update.
+
+- An entry displayed on the 'read' page can be deleted by selecting the Delete button on the visible menu. A pop-up dialog
+asks the user to confirm the deletion by clicking OK, or Cancel to keep the entry. If the user clicks OK, the 'home' page is 
+displayed with a message confirming that the entry was deleted.
+
+- The user can also return to the Home page at any time by clicking on the "Energy Glossary" page title on top of the page.
+
 
 ### Features Left to Implement
 
-- Future versions of the webpage could include 
+- Future versions of the glossary could include an autocomplete search input, where the app displays a list of database entries
+  potentially matching the user input as it is typed. The user could select an entry after typing part of the term name.
+
+- If a search fails, the app could show a list of suggested terms which have similar words to the search term.
+
+- The home page could display all of the database entries in a paginated list, with the user scrolling through them and
+selecting the next page as required. This would allow browsing of all the entries.
+
+- The app could maintain a list of the most popular search terms used.
 
 ## Technologies Used
 
-- This project uses **HTML** for basic layout and text, and **CSS** for styling the content. The HTML includes screen reader content also.
+- This project uses **HTML** for basic layout and text, and **CSS** for styling the content.
 
-- [Bootstrap](https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css)
-    - This project uses **Bootstrap** to ease development by use of the Bootstrap grid system and design templates. It provides responsive CSS to adjust to 
-      different screen sizes in phones, tablet and desktop devices. The Bootstrap Navbar feature is used to provide access to the settings, and logo at the       top of the page. A Bootstrap modal is used for the settings inputs.
+- [MongoDB](www.mongodb.com)
+    - This project uses a web based MongoDB database as its data store. It is a document-based database which uses
+      BSON, a JSON-like dictionary format to store data. In this case the database records consist of a dictionary with
+      the term name 'term' and the description 'description'. The database was uploaded to MongoDB in csv format.
 
-- **Javascript** is used for the main coding of the interactive and logical elements. It handles the interaction with the Google Maps API, the inputs and prompts to   the user, and the decision/display logic around the search results.
+- [Flask](https://palletsprojects.com/p/flask/)
+    - This project uses the Flask micro web framework. It is a light weight Python based framework. It is used here to 
+      route to Python functions for each of the CRUD (Create, Read, Update, Delete) database operations. It uses the Jinja
+      templating language to read and write variables to/from the HTML template pages. The project uses a base.html for 
+      elements common to all pages such as the top navbar. The other page templates provide additional content for their
+      respective functions.
+
+- [Materialize](https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css)
+    - This project uses the  **Materialize** front end framework to ease development by use of its grid system and design templates. It is based on Material Design by Google to 
+    speed up development and is responsive to different screen sizes in phones, tablet and desktop devices. Its Navbar feature is used to provide access to the settings
+    at the top of each page for large devices, with its Floating Action Buttons being used to provide menu access for mobile devices
+
+- **Javascript** is used to initialize the floating action button menu for use on mobile devices.
 
 - [JQuery](https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js)
-  **jQuery** is used to select and control some of the HTML elements, for example updating the status/prompt text area at the bottom of the webpage.
+  **jQuery** is used to select and initialize the navbar and floating action button menus.
 
-- [Popper](https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js)
-For popovers and drop down menus. Provides dynamic positioning and viewport detection.
 
-- The **Google Maps API** is used to interface with Google Maps for the main map display on the page, and all search and display functions for the map.
+- [Material Icons](https://fonts.googleapis.com/icon?family=Material+Icons) is used with Materialize for button icons.
 
-- [FontAwesome](https://use.fontawesome.com/releases/v5.1.1/css/all.css) for the "lightning" marker icon.
+- [Heroku](https://heroku.com)
+    - This project is deployed on the Heroku platform, which is used to host web applications in many programming languages
+    including Python. The applications run in virtual containers known as "Dynos".
 
 ## Testing
 
@@ -86,29 +127,54 @@ The website was tested with the following devices and scenarios:
 - Samsung Galaxy Tab 2 Android tablet with FlashFox browser
 
 Testing showed the following results:
-The page loaded successfully on all devices. The settings modal popped up on first use on a device, as designed. The map, and charge point markers were visible centred on the search location. The search operated correctly from a GPS located location or alternate location selected by the user, and a default location. Settings were stored correctly in local storage, and available on re-opening the site. There were some cases in landscape mode on mobile devices where the settings modal text area was partially obscured by the footer border. However, the Cancel and Save buttons remained visible.
-The test cases were as follows:
+The application pages loaded successfully on all devices. CRUD functionality was tested successfully on each. There were
+some issues with the floating action buttons appearing "squashed" on mobile devices in landscape mode. However, they remained
+visible and performed as expected, with the glossary text visible. It was necessary to apply CSS to the floating action button
+sizing and positions, since they seemed very small with the standard Materialize settings on mobile devices.
+
+The test cases were as follows, run manually in sequence:
 
 ### Test Cases
-1) First time page load (settings modal should pop up and the user is prompted to configure)
+1) Home page load: Home page should load with the search input box, list of 10 latest entries, and the Add button visible.
 
-2) Selection of Tesla charge points only filter
+2) Search: Input e.g "Global Warming" in the search input and press Enter. The glossary entry should be displayed on the Read
+   page with a "Back to search page" button under the description. The Add, Update, and Delete buttons should be visible.
 
-3) Blink interval setting (0 and non-zero)
+3) Return to search: Click the "Back to search page" button. The Home page should be displayed again as in testcase 1.
 
-4) Default location setting
+4) Latest entry select: Select one of the 10 latest entries from the list. The glossary entry should be displayed in the Read
+   page, again with a "Back to search page" button, and the Add, Update, and Delete buttons visible.
 
-5) Map centering and search operation
+5) Add entry from Home: Click the "Back to search page" button. The Home page should be displayed again as in testcase 1.
+   Click the Add button. The Add form, titled "Add Glossary Entry", should appear, with input boxes for the term name and its
+   description. There should be an "Add Entry" button under the form. Type in a test entry and click Add Entry. The new entry
+   should appear on the Read page with a message 'Entry for "<test entry name>" created!'. There should be a red "New!" label
+   to the right of the entry name. 
 
-6) Marker display including closest marker
+6) Update entry from Home: Click the "Back to search page" button. The Home page should be displayed again as in testcase 1.
+   Verify that the new entry has been created by searching for it, and by selecting it from the latest entries. Click the Update
+   button. Update the entry by modifying its name or description. Click the "Update Entry" button under the description. The updated
+   entry should appear on the Read page with a message 'Entry for "<test entry name>" updated!'. There should be a red "New!" label
+   to the right of the entry name.
 
-7) Charge point selection and confirmation
 
-8) Navigation/route preview operation
+7) Delete entry from Home: Click the "Back to search page" button. The Home page should be displayed again as in testcase 1.
+   Verify that the new entry has been updated by searching for it. Once it appears in the Read page, click the Delete button.
+   There should be a popup window with the message "Are you sure you want to delete the entry", and Cancel and OK buttons.
+   Click Cancel, and the window should close. Click the Delete button again, and this time click OK on the popup window.
+   The Home page should be displayed, with a message 'Entry for "<test entry name>" deleted!'. 
 
-9) Alternate start point selection and search
+8) No result found test: Verify that the test entry has been deleted by searching for it. The Home page should be displayed,
+   with a message 'No result found for "<test entry name>" .Check your spelling and try again'.
 
-10) 65% map height media rule for iPhone 5/SE and Moto G4 in landscape mode
+9) Add entry from Read: From the Home page, select an entry by searching or selecting it from the latest list. The Read page
+   should display the selected entry. Click the Add button, and continue as in testcase 5. The new entry should be created
+   as before.
+
+10) Home link from Read: Search for or select an entry. From the Read page, click on the "Energy Glossary" title on the top
+    of the page. The Home page should be displayed.
+
+
 
 **Test Table**
 
@@ -123,7 +189,7 @@ The test cases were as follows:
 | **7** | Pass  | Pass | Pass  | Pass | Pass  | Pass | Pass  | 
 | **8** | Pass  | Pass | Pass  | Pass | Pass  | Pass | Pass  | 
 | **9** | Pass  | Pass | Pass  | Pass | Pass  | Pass | Pass  |
-| **10** | N/A  | N/A | N/A  | Pass | Pass  | Pass | N/A  | 
+| **10** | Pass  | Pass | Pass  | Pass | Pass  | Pass | Pass  |
 
 
 
@@ -131,19 +197,35 @@ The test cases were as follows:
 
 ## Deployment
 
-The project was deployed on GitHub Pages. To do this, I clicked on the "Settings" tab of the charge-locator repository in GitHub. Then I scrolled down to the GitHub Pages section. From the Source drop-down menu I selected "master branch" to deploy the website from the latest master code. GitHub then published the website at: [charge-locator](https://rphanley.github.io/charge-locator/)
+The project was deployed on [Heroku](https://heroku.com). The project was first checked in and pushed on GitHub. A new user
+account was created on Heroku. From the Personal page, the New button was used to create the app "energy-glossary".
+Then clicking on the newly created app, first the config variables were set in the Settings tab: 
+- IP = 0.0.0.0 for localhost,
+- MONGO_URI = the connection string specified by MongoDB (including the database collection, username and password)
+- PORT = 5000
+- SECRET_KEY = a secret key used in the application to allow use of flash messaging in Flask.
 
-- **Local Install**: The website can be installed locally by clicking the "Clone or download" button at : [charge-locator](https://github.com/rphanley/charge-locator), then clicking on "Download ZIP" to download the folder structure and all files to your device.
+ Then in the Deploy tab, GitHub was selected as the deployment method. The Heroku app was then connected to the 
+energy-glossary repo on GitHub (https://github.com/rphanley/energy-glossary). Scrolling down on the Deployment page on Heroku, 
+in the Manual deploy section, the master branch was selected. Then the "Deploy Branch" button was clicked to run the deployment
+on Heroku. The project is deployed at [energy-glossary](https://energy-glossary.herokuapp.com/).
+
+
+- **Local Install**: The application could be installed locally by for example, creating a virtual environment on a Linux
+system (https://packaging.python.org/tutorials/installing-packages/#creating-virtual-environments). The source files are avaiable to
+download from [GitHub](https://github.com/rphanley/energy-glossary) using the Clone or download button. The pre-requisites for the
+application, such as Flask, can then be installed from the Linux command line using: pip3 install -r requirements.txt   .
+Then run the application using: python3 app.py
+
 
 
 
 ## Credits
 
 ### Content
-- Modal logo and car icon courtesy of bigstockphoto.com. 
-- Lightning marker icon courtesy of FontAwesome.
+- Sample energy glossary courtesy of [California Energy Commission](https://www.energy.ca.gov/resources/energy-glossary)
 
-### Media
+
 
 ### Acknowledgements
-I want to acknowledge the invaluable help and guidance of my tutor Xavier, and mentor Ignatius, in developing this project.
+I want to acknowledge again the help and guidance from my tutor Xavier, and mentor Ignatius, in developing this project.
