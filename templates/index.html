@@ -1,0 +1,52 @@
+{% extends 'base.html'%} {% block content %}
+<div class="row">
+    <div class="col s12">
+	<form action="{{ url_for('search_terms') }}" method="POST" id="search_form">
+		<div class="center row">
+			<div class="input-field col s8 black-text">
+				<i class="black-text material-icons prefix">search</i>
+				<input id="search_input" type="text" placeholder="Enter an energy term to search for" name="search_input" class="black-text" >
+            </div>
+			</div>
+	</form>
+	<br>
+	<br>
+
+    
+        <ul class="collection with-header">
+            <li class="collection-header green lighten-2 white-text">
+                <span id="entry_list_title">Latest entries</span>
+            </li>
+            <!-- Show the 10 latest database entries -->
+            {% for record in records %}
+            <li>
+                <a id ="entry_list" href="{{url_for('get_record', record_id=record['_id'])}}"
+                    class="collection-item green lighten-4 black-text"><strong>{{record['term']}}</strong></a>
+            </li>
+
+            {% endfor %}
+        </ul>
+    
+
+
+
+
+	<div class="fixed-action-btn click-to-toggle hide-on-large-only">
+		<a class="btn-floating btn-large green lighten-2">
+           <i class="large material-icons">menu</i>
+      	</a>
+
+		<ul>
+			<li><a class="float_items btn-floating green darken-1" href="{{url_for('add')}}"><i class="material-icons">add</i></a>
+			</li>
+		</ul>
+	</div>
+
+
+
+
+
+
+    </div>
+</div>
+{% endblock %}

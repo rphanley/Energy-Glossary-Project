@@ -1,0 +1,45 @@
+{% extends 'base.html'%}
+{% block update_here %}<li><a class="btn-small green lighten-4 black-text" href="{{url_for('update', term_id=result_term['_id'])}}">Update</a></li>{% endblock %}
+{% block delete_here %}<li><a class="btn-small green lighten-4 black-text" href="{{ url_for('delete', term_id=result_term['_id']) }}"
+						onclick="return confirm('Are you sure you want to delete the entry?');">Delete</a></li>{% endblock %}
+ 
+ 
+ {% block content %}
+ 
+ 
+<div class="row">
+                    <br></br>
+                    <div id="term_title">
+                        <span id="term_text">{{result_term['term']}}</span><span id="badge" class ="{{badge_class}}" data-badge-caption="New!"></span>
+                                      
+                    </div>
+                    <div>
+                        <span id="desc_text">{{result_term['description']}}</span>
+                    </div>
+
+                    <br>
+                    <a href="{{url_for('home')}}" class="waves-effect waves-light btn-small green lighten-2  valign-wrapper">
+                        <i class="material-icons">arrow_back</i> Back to search page</a>
+
+	<div class="fixed-action-btn click-to-toggle hide-on-large-only">
+		<a class="btn-floating btn-large green lighten-2">
+            <i class="large material-icons">menu</i>
+        </a>
+        
+		<ul>
+			<li><a class="float_items btn-floating green darken-1"
+					href="{{url_for('add')}}"><i class="material-icons">add</i></a></li>
+			<li><a class="float_items btn-floating orange"
+					href="{{url_for('update', term_id=result_term['_id'])}}"><i class="material-icons">mode_edit</i></a></li>
+
+			<li><a class="float_items btn-floating red" href="{{ url_for('delete', term_id=result_term['_id']) }}"
+					onclick="return confirm('Are you sure you want to delete the entry?');"><i class="material-icons">delete</i></a>
+			</li>
+		</ul>
+	</div>
+
+
+
+
+</div>
+{% endblock %}
