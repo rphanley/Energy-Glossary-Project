@@ -15,4 +15,4 @@ PyScreeze==0.1.25
 python-dotenv==0.10.3
 python3-xlib==0.15
 PyTweening==1.0.3
-Werkzeug==0.16.0
+Werkzeug==2.2.3
